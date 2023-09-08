@@ -6,15 +6,26 @@ public class UserModel {
     private String firstName;
     private String lastName;
     private Integer id;
+    private String dateTimeCreated;
 
     public UserModel() {
 
     }
-    public UserModel(String username, String firstName, String lastName, Integer id) {
+
+    public UserModel(String username, String firstName, String lastName, Integer id, String dateTimeCreated) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
+        this.dateTimeCreated = dateTimeCreated;
+    }
+
+    public String getDateTimeCreated() {
+        return dateTimeCreated;
+    }
+
+    public void setDateTimeCreated(String dateTimeCreated) {
+        this.dateTimeCreated = dateTimeCreated;
     }
 
     public String getUsername() {
