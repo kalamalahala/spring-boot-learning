@@ -1,38 +1,42 @@
 package spring.course.services;
 
 import org.springframework.stereotype.Service;
+import spring.course.data.UserEntity;
+import spring.course.data.UserRepository;
+import spring.course.mappers.EntityMapper;
+import spring.course.mappers.UserEntityMapper;
 import spring.course.model.UserModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * This class is the implementation of the user Service interface.
+ * This class is responsible for implementing the methods that the service interface requires.
+ * A service class contains the business logic for the application and
+ * acts as a middleman between the controller and the repository.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final Map<Integer, UserModel> userMap = new HashMap<>();
     private final TimeService timeService;
+    private final UserRepository userRepository;
+    private final EntityMapper<UserEntity, UserModel> entityMapper;
 
-    public UserServiceImpl(TimeService timeService) {
+    public UserServiceImpl(TimeService timeService, UserRepository userRepository, EntityMapper<UserEntity, UserModel> entityMapper) {
         this.timeService = timeService;
-        String currentTime = timeService.getCurrentTime("America/New_York");
-        userMap.put(1, new UserModel("user1", "John", "Doe", 1, currentTime));
+        this.userRepository = userRepository;
+        this.entityMapper = entityMapper;
     }
 
     public UserModel getUser(Integer id) {
-        return userMap.get(id);
+        return entityMapper.entityToModel(userRepository.findById(id));
     }
 
     public void addUser(UserModel user) {
         user.setDateTimeCreated(timeService.getCurrentTime("America/New_York"));
-        userMap.put(user.getId(), user);
+        userRepository.save(entityMapper.modelToEntity(user));
     }
 
     public void deleteUser(Integer id) {
-        userMap.remove(id);
-    }
-
-    public boolean userExists(Integer id) {
-        return userMap.containsKey(id);
+        userRepository.deleteById(id.toString());
     }
 
 

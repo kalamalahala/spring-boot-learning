@@ -1,0 +1,10 @@
+api:
+  endpoint: "https://worldtimeapi.org/api/timezone/"
+  timezone: "America/New_York"
+  utcOffset: -4
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: admin

@@ -8,6 +8,11 @@ import spring.course.services.UserService;
 
 import java.util.Optional;
 
+/**
+ * This class is the controller for the user model.
+ * This class is responsible for handling the requests and responses for the
+ * user model class, and it is the only class that can access the service class.
+ */
 @RestController
 public class UserController {
 
@@ -33,24 +38,15 @@ public class UserController {
     public ResponseEntity<HttpStatus> addUser(@RequestBody UserModel requestBody) {
         System.out.println("addUser called with body: " + requestBody);
         // check if user id exists in map
-        if (service.userExists(requestBody.getId())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } else {
-            service.addUser(requestBody);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        }
-
+        service.addUser(requestBody);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Integer id) {
         System.out.println("deleteUser called with id: " + id);
-        // check if user id exists in map
-        if (!service.userExists(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            service.deleteUser(id);
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
+        service.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }
